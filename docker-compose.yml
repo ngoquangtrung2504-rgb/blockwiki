@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  blockwiki:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: blockwiki_app
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DATASOURCE_URL: bolt://neo4j:7687
+      SPRING_DATASOURCE_USERNAME: neo4j
+      SPRING_DATASOURCE_PASSWORD: neo4j_password
+    depends_on:
+      - neo4j
+    restart: unless-stopped
+
+  neo4j:
+    image: neo4j:5.12.0
+    container_name: blockwiki_neo4j
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    environment:
+      NEO4J_AUTH: neo4j/neo4j_password
+    volumes:
+      - neo4j_data:/data
+    restart: unless-stopped
+
+volumes:
+  neo4j_data:
