@@ -30,7 +30,7 @@ WORKDIR /app
 
 # Copy jar từ stage build
 COPY --from=build /app/target/*.jar app.jar
-
+COPY opentelemetry-javaagent.jar ./opentelemetry-javaagent.jar
 # Expose port
 EXPOSE 8080
 
