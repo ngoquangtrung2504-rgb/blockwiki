@@ -34,5 +34,13 @@ COPY --from=build /app/target/*.jar app.jar
 # Expose port
 EXPOSE 8080
 
+ENV OTEL_SERVICE_NAME=blockwiki
+ENV JAVA_TOOL_OPTIONS="-javaagent:opentelemetry-javaagent.jar"
+ENV OTEL_TRACES_EXPORTER=logging
+ENV OTEL_METRICS_EXPORTER=logging
+ENV OTEL_LOGS_EXPORTER=logging
+ENV OTEL_METRIC_EXPORT_INTERVAL=15000
+ENV OTEL_JAVAAGENT_DEBUG=true
+
 # Chạy ứng dụng
 ENTRYPOINT ["java","-jar","app.jar"]
